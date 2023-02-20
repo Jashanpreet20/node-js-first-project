@@ -1,19 +1,19 @@
-// // const http=require('http');
-// // const server=http.createServer((req,res) =>{
-// //     const url=req.url;
-// //     console.log(url);
-// //    if(req.url === '/home')
-// //    {
-// //     res.end('welcome home');
-// //    }
-// //    else if(req.url === '/about')
-// //    {
-// //     res.end('welcome to about us page');
-// //    }else if(req.url === '/node')
-// //    {
-// //     res.end('welcome to my node js project');
-// //    }
-// // });
+// const http=require('http');
+// const server=http.createServer((req,res) =>{
+//     const url=req.url;
+//     console.log(url);
+//    if(req.url === '/home')
+//    {
+//     res.end('welcome home');
+//    }
+//    else if(req.url === '/about')
+//    {
+//     res.end('welcome to about us page');
+//    }else if(req.url === '/node')
+//    {
+//     res.end('welcome to my node js project');
+//    }
+// });
 
 
 // // server.listen(3000, () =>{
@@ -105,16 +105,32 @@
 // })
 
 
+
+
+
 const http=require('http');
-const fs=require('fs');
-const { buffer } = require('stream/consumers');
 
-const routes=require('./routes');
+const express=require('express');
 
-console.log(routes.sometext);
-const server=http.createServer(routes.handler);
+const app=express();
+//const routes=require('./routes');
 
+const obj={ key1: "jashan" };
+app.use((req,res,next)=>{
+    console.log('first middleware');
+    next();
+});
+
+app.use((reqeust,response,next) =>{
+    response.send(obj);
+    console.log('second middleware/');
+})
+
+//console.log(routes.sometext);
+const server=http.createServer(app);
 
 server.listen(3000, () =>{
+    
     console.log('server run at 3000 port');
 })
+
