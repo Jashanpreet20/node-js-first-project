@@ -109,27 +109,37 @@
 
 
 const http=require('http');
-
+const fs=require('fs');
 const express=require('express');
+
+const bodyparser=require('body-parser');
+const { send } = require('process');
+const { json } = require('body-parser');
 
 const app=express();
 //const routes=require('./routes');
 
+app.use(bodyparser.urlencoded({extended: false}));
+
 const obj={ key1: "jashan" };
-app.use((req,res,next)=>{
-    console.log('first middleware');
-    next();
+app.use('/add',(req,res,next)=>{
+   res.send('<form action ="/product" method="PoST"><input type="text" name="title"><input type="text" name="size"><button type ="submit">send</button></form>');
 });
 
-app.use((reqeust,response,next) =>{
-    response.send(obj);
+app.use('/product',(req,res,next) =>{
+        console.log(req.body);
+        fs.writeFileSync('just.text',JSON.stringify(req.body));
+        res.redirect('/');
+});
+app.use('/', (reqeust,response,next) =>{
+    response.send('home page')
     console.log('second middleware/');
 })
 
 //console.log(routes.sometext);
 const server=http.createServer(app);
 
-server.listen(3000, () =>{
+app.listen(3000, () =>{
     
     console.log('server run at 3000 port');
 })
