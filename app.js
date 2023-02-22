@@ -34,12 +34,12 @@
 //               console.error(err);
 //             }
 //             console.log("data form file  " +data);
-//             res.write('<html>');
-//             res.write('<head><title>redirecting request</head></title>');
-//             res.write(`<body>${data}</body>`);
-//             res.write('<body><form action="/message" method="POST"><input type="text" name ="message"><button type="submit">send</button></form></body>')
-//             res.write('/<html>')
-//             return res.end();
+            // res.write('<html>');
+            // res.write('<head><title>redirecting request</head></title>');
+            // res.write(`<body>${data}</body>`);
+            // res.write('<body><form action="/message" method="POST"><input type="text" name ="message"><button type="submit">send</button></form></body>')
+            // res.write('/<html>')
+            // return res.end();
 //           });
 
 //              // routing request 
@@ -108,39 +108,80 @@
 
 
 
-const http=require('http');
-const fs=require('fs');
+// const express=require('express');
+
+// // const bodyparser=require('body-parser');
+// // const { send } = require('process');
+// // const { json } = require('body-parser');
+
+// const app=express();
+// const adminrouter=require('./routes/admin');
+// const shoprouter=require('./routes/shop');
+
+// const bodyparser=require('body-parser');
+
+// app.use(bodyparser.urlencoded({extended: false}));
+
+// app.use('/shop',shoprouter);
+// app.use(adminrouter);
+
+
+// app.use((req,res,next) =>{
+//     //res.statusCode=404;
+//     res.status(404).send('<h1>page not found</h1>');
+// })
+//const routes=require('./routes');
+
+//app.use(bodyparser.urlencoded({extended: false}));
+
+// const obj={ key1: "jashan" };
+// app.use('/add',(req,res,next)=>{
+//    res.send('<form action ="/product" method="PoST"><input type="text" name="title"><input type="text" name="size"><button type ="submit">send</button></form>');
+// });
+
+// app.use('/product',(req,res,next) =>{
+//         console.log(req.body);
+//         fs.writeFileSync('just.text',JSON.stringify(req.body));
+//         res.redirect('/');
+// });
+// app.use('/', (reqeust,response,next) =>{
+//     response.send('home page')
+//     console.log('second middleware/');
+// })
+
+//console.log(routes.sometext);
+//const server=http.createServer(app);
+
+// app.listen(3000, () =>{
+    
+//     console.log('server run at 3000 port');
+// })
+
+
+
 const express=require('express');
 
 const bodyparser=require('body-parser');
-const { send } = require('process');
-const { json } = require('body-parser');
 
-const app=express();
-//const routes=require('./routes');
 
-app.use(bodyparser.urlencoded({extended: false}));
+const adminrouter=require('./routes/admin');
+const shoprouter=require('./routes/shop')
 
-const obj={ key1: "jashan" };
-app.use('/add',(req,res,next)=>{
-   res.send('<form action ="/product" method="PoST"><input type="text" name="title"><input type="text" name="size"><button type ="submit">send</button></form>');
-});
 
-app.use('/product',(req,res,next) =>{
-        console.log(req.body);
-        fs.writeFileSync('just.text',JSON.stringify(req.body));
-        res.redirect('/');
-});
-app.use('/', (reqeust,response,next) =>{
-    response.send('home page')
-    console.log('second middleware/');
+const app= express();
+
+app.use(bodyparser.urlencoded({extended :false}));
+
+app.use('/shop',shoprouter);
+app.use(adminrouter);
+
+// it is upto you wheather you can pass the '/' this or not if you not pass it is absolutely work
+app.use('/',(req,res,next) =>{
+    res.status(404).send('<h1> page not found</h1>');
 })
 
-//console.log(routes.sometext);
-const server=http.createServer(app);
 
-app.listen(3000, () =>{
-    
-    console.log('server run at 3000 port');
+
+app.listen(3000 ,() =>{
+    console.log('server run at 3000');
 })
-
